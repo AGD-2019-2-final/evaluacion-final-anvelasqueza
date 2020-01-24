@@ -9,6 +9,8 @@
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
 fs -rm -f -r output;
+fs -rm -f -r data.csv;
+fs -put data.csv;
 -- 
 u = LOAD 'data.csv' USING PigStorage(',') 
     AS (id:int, 
@@ -20,3 +22,9 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+v = FOREACH u GENERATE SUBSTRING(birthday,0,4)as i;
+z = GROUP v BY i;
+y = FOREACH z GENERATE group,COUNT(v);
+--DUMP y;
+STORE y INTO 'output' USING PigStorage(',');
+fs -get output/ ;
