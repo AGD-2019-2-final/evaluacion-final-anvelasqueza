@@ -27,3 +27,9 @@ fs -rm -f -r output;
 -- 
 --  >>> Escriba su respuesta a partir de este punto <<<
 -- 
+u = LOAD 'truck_event_text_partition.csv' USING PigStorage(',')
+    AS (f1:CHARARRAY, f2:CHARARRAY, f3:CHARARRAY, f4:CHARARRAY, f5:DOUBLE, f6:DOUBLE, f7:CHARARRAY, f8:CHARARRAY, f9:CHARARRAY, f10:INT, f11:CHARARRAY, f12:CHARARRAY);
+r = FOREACH u GENERATE CONCAT(f1,',', f2, ',', f3) as ld;
+s = LIMIT r 10;
+y = ORDER s BY ld;
+STORE y INTO './output' using PigStorage('\t');

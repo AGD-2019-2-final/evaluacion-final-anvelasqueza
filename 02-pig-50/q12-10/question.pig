@@ -33,3 +33,10 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+u = LOAD 'data.csv' USING PigStorage(',')
+    AS (f1:INT, f2:CHARARRAY, f3:CHARARRAY, f4:CHARARRAY, f5:CHARARRAY, f6:INT);
+    
+y = FOREACH u GENERATE $2;
+
+f = FILTER y BY ($0 matches '.*(D|E|F|G|H|I|J|K).*');
+STORE f INTO './output' using PigStorage('\t');

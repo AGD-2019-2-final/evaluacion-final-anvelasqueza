@@ -28,4 +28,10 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+u = LOAD 'data.csv' USING PigStorage(',')
+    AS (f1:INT, f2:CHARARRAY, f3:CHARARRAY, f4:CHARARRAY, f5:CHARARRAY, f6:INT);
 
+f = FILTER u BY (f5 matches '.*(blue|green).*');
+
+y = FOREACH f GENERATE f2, f5;
+STORE y INTO './output' using PigStorage('\t');

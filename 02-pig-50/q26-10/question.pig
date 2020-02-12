@@ -27,3 +27,9 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+u = LOAD 'data.csv' USING PigStorage(',') AS (f1:INT, f2:CHARARRAY, f3:CHARARRAY, f4:CHARARRAY, f5:CHARARRAY, f6: INT);
+
+y = FILTER u BY (f2 matches '.*[M-Z].*');
+
+b = FOREACH y GENERATE f2;
+STORE b INTO './output' using PigStorage('\t');

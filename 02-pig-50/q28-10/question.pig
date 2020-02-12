@@ -29,4 +29,10 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+u = LOAD 'data.csv' USING PigStorage(',')
+    AS (f1:INT, f2:CHARARRAY, f3:CHARARRAY, f4:CHARARRAY, f5:CHARARRAY, f6: INT);
 
+substringdata = FOREACH u GENERATE SUBSTRING (f4, 0, 4) as ld1, SUBSTRING (f4, 2, 4) as ld2;
+
+substringdata2 = FOREACH substringdata GENERATE CONCAT(ld1 , ',' , ld2);
+STORE substringdata2 INTO './output' using PigStorage('\t');
