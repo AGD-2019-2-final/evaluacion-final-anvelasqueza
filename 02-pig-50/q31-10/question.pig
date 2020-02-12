@@ -9,8 +9,6 @@
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
 fs -rm -f -r output;
---fs -rm -f -r data.csv;
---fs -put data.csv;
 -- 
 u = LOAD 'data.csv' USING PigStorage(',') 
     AS (id:int, 
@@ -35,3 +33,4 @@ wordcount = FOREACH grouped GENERATE group, COUNT(words) as ld1: CHARARRAY;
     
 wordcount2 = FOREACH wordcount GENERATE CONCAT(group, ',' , ld1);
 STORE wordcount2 INTO './output' using PigStorage('\t');
+
